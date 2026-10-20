@@ -1,0 +1,43 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PostCard from '../components/PostCard.astro';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+---
+
+<BaseLayout>
+  <section class="hero container">
+    <img
+      class="hero-avatar"
+      src="/images/avatar.jpg"
+      alt="k1ne 的头像"
+      width="76"
+      height="76"
+    />
+    <h1>k1ne</h1>
+    <p class="tagline"><em>疯狂造句中……</em></p>
+    <p class="motto">追寻心中的旗帜</p>
+  </section>
+
+  <section class="section container">
+    <div class="section-head">
+      <h2 class="section-title">文章</h2>
+      <a class="section-more" href="/blog/">全部 →</a>
+    </div>
+
+    {
+      posts.length > 0 ? (
+        <ul class="post-list">
+          {posts.map((post) => (
+            <PostCard post={post} />
+          ))}
+        </ul>
+      ) : (
+        <p class="empty">还没有写东西，先去 <code>src/content/blog/</code> 放一篇 Markdown。</p>
+      )
+    }
+  </section>
+</BaseLayout>

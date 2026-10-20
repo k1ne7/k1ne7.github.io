@@ -1,0 +1,18 @@
+# build output
+dist/
+# generated types
+.astro/
+# dependencies
+node_modules/
+# logs
+npm-debug.log*
+# environment
+.env
+.env.production
+# system
+.DS_Store
+Thumbs.db
+# local backup of the old WordPress site (never publish)
+_backup/
+# local screenshot tooling
+_shots/

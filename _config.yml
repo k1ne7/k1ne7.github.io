@@ -1,0 +1,65 @@
+title: k1ne
+subtitle: 追寻心中的旗帜
+description: k1ne 的个人博客，记录想法与生活。
+author: k1ne
+language: zh-CN
+timezone: Asia/Shanghai
+
+url: https://k1ne7.github.io
+root: /
+permalink: blog/:title/
+pretty_urls:
+  trailing_index: false
+  trailing_html: false
+
+source_dir: source
+public_dir: dist
+tag_dir: tags
+archive_dir: archives
+category_dir: categories
+skip_render:
+  - .nojekyll
+new_post_name: :title.md
+default_layout: post
+titlecase: false
+external_link:
+  enable: true
+  field: site
+  exclude: []
+filename_case: 0
+render_drafts: false
+post_asset_folder: false
+relative_link: false
+future: false
+
+theme: butterfly
+per_page: 10
+pagination_dir: page
+index_generator:
+  path: ''
+  per_page: 10
+  order_by: -date
+
+highlight:
+  enable: true
+  line_number: true
+  auto_detect: false
+  tab_replace: '  '
+prismjs:
+  enable: false
+marked:
+  gfm: true
+  breaks: false
+
+feed:
+  type: atom
+  path: atom.xml
+  limit: 20
+  content: false
+sitemap:
+  path: sitemap.xml
+search:
+  path: search.xml
+  field: post
+  content: true
+  format: html

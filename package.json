@@ -1,17 +1,35 @@
 {
   "name": "k1ne-blog",
-  "type": "module",
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "astro dev",
-    "start": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview"
+    "predev": "node tools/vendor-assets.cjs",
+    "dev": "hexo server --port 4323",
+    "prestart": "node tools/vendor-assets.cjs",
+    "start": "hexo server --port 4323",
+    "build": "node tools/vendor-assets.cjs && hexo clean && hexo generate",
+    "preview": "hexo server --static --port 4323",
+    "clean": "hexo clean",
+    "new": "hexo new"
   },
   "dependencies": {
-    "@astrojs/rss": "^4.0.19",
-    "@astrojs/sitemap": "^3.7.4",
-    "astro": "^7.4.1"
+    "@fortawesome/fontawesome-free": "7.3.0",
+    "hexo": "8.1.2",
+    "hexo-generator-archive": "^2.0.0",
+    "hexo-generator-category": "^2.0.0",
+    "hexo-generator-feed": "^3.0.0",
+    "hexo-generator-index": "^4.0.0",
+    "hexo-generator-searchdb": "^1.5.0",
+    "hexo-generator-sitemap": "^3.0.1",
+    "hexo-generator-tag": "^2.0.0",
+    "hexo-renderer-marked": "^7.0.1",
+    "hexo-server": "^3.0.0",
+    "hexo-theme-butterfly": "5.7.0"
+  },
+  "engines": {
+    "node": ">=22.22.0"
+  },
+  "hexo": {
+    "version": "8.1.2"
   }
 }

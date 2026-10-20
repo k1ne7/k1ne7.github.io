@@ -1,108 +1,100 @@
-# k1ne 的博客
+# k1ne 的博客 · Hexo + Butterfly
 
-从 WordPress（Sakurairo 主题，虚拟主机）迁移过来的静态博客，用 [Astro](https://astro.build) 构建，
-部署在 GitHub Pages 上，零服务器、零数据库、零费用。
+使用官方 [Butterfly](https://butterfly.js.org/) 主题，通过 npm 安装并锁定版本。
+计划部署到 https://k1ne7.github.io，不需要续费旧域名或虚拟主机。
 
-线上地址：<https://k1ne7.github.io>
+## 本地运行
 
-## 本地开发
+需要 Node.js 22.22.0+，推荐 Node.js 24 LTS。
 
-```bash
-npm install       # 第一次
-npm run dev       # 本地预览 http://localhost:4321
-npm run build     # 构建到 dist/
-npm run preview   # 预览构建结果
+```powershell
+npm ci
+npm run dev
 ```
 
-需要 Node 18+（推荐 22）。
+访问 http://localhost:4323。`npm run build` 生成静态网站到 `dist/`；
+`npm run preview` 可预览构建结果。
 
 ## 写文章
 
-在 `src/content/blog/` 里新建一个 `.md` 文件，文件名就是 URL 的一部分：
-
-```
-src/content/blog/hello-world.md  →  https://k1ne7.github.io/blog/hello-world/
+```powershell
+npm run new -- post "文章标题"
 ```
 
-文件开头写 frontmatter：
+文章在 `source/_posts/`。文件名成为网址，发布后尽量不要改动。
+例如 `meet.md` → `/blog/meet/`。文章开头：
 
 ```yaml
 ---
-title: 标题
-date: 2026-03-10T19:24:08+08:00
-category: 感想          # 可选，显示成标签
-excerpt: 摘要，显示在列表卡片上   # 可选
-cover: /images/foo.jpg  # 可选，卡片和文章顶部的配图
-draft: false            # true = 不发布
+title: 文章标题
+date: 2026-10-20 15:00:00
+categories:
+  - 生活
+tags:
+  - 随笔
+description: 列表显示的摘要
+cover: /images/meet.jpg
 ---
 ```
 
-正文用 Markdown 写即可。诗歌这种要保留换行的，行尾加两个空格。
+正文用 Markdown，图片放 `source/images/`，以 `/images/文件名.jpg` 引用。
+也可以直接在 GitHub 网页新增或编辑文章并提交，触发自动部署。
 
-图片放 `public/images/`，引用写 `/images/xxx.jpg`。
+草稿：`npx hexo new draft "标题"`，存在 `source/_drafts/`，默认不生成网页。
+发布：`npx hexo publish "标题"`。草稿若提交到公开仓库，源码仍会公开；私密内容不要提交。
 
-## 目录结构
+## 配置与主题
 
-```
-src/
-├─ content/blog/        文章（Markdown）
-├─ content.config.ts    文章字段的校验规则
-├─ layouts/             页面骨架
-├─ components/          顶栏、页脚、文章卡片
-├─ pages/
-│  ├─ index.astro       首页
-│  ├─ blog/index.astro  文章列表
-│  ├─ blog/[...slug].astro  文章详情（按文件名自动生成）
-│  ├─ about.astro       关于
-│  ├─ 404.astro         404
-│  └─ rss.xml.js        RSS
-└─ styles/global.css    全部样式（配色、排版、响应式）
-.github/workflows/deploy.yml  推送到 main 自动部署
-```
+- `_config.yml`：标题、作者、域名、文章链接和插件。
+- `_config.butterfly.yml`：导航、封面、头像、侧栏、搜索和深浅色模式。
+- `source/about/index.md`：关于页面。
+- `source/css/custom.css`：少量可访问性调整，主体保持官方主题。
+- `scaffolds/`：新文章和页面模板。
+
+首页大图暂时沿用旧站文章配图。更换后修改 `index_img` 和 `default_top_img` 即可。
+搜索、RSS、站点地图已配置；评论尚未接入。
+图标字体通过 `tools/vendor-assets.cjs` 从 npm 包复制到本地，随站点部署。
+不要直接修改 `node_modules/` 内主题文件；更新依赖会覆盖它们。
 
 ## 部署到 GitHub Pages
 
-1. 在 GitHub 上建一个**公开**仓库，名字必须是 `k1ne7.github.io`
-   （仓库名和用户名一致，站点才会在 `https://k1ne7.github.io/` 根路径下）
-2. 本仓库推上去：
+仓库：https://github.com/k1ne7/k1ne7.github.io。
 
-   ```bash
-   git remote add origin https://github.com/k1ne7/k1ne7.github.io.git
-   git branch -M main
+1. 仓库 **Settings → Pages → Build and deployment → Source** 选择 **GitHub Actions**。
+2. 提交并推送本项目：
+
+   ```powershell
+   git add .
+   git commit -m "迁移到 Hexo + Butterfly"
    git push -u origin main
    ```
 
-3. 仓库 **Settings → Pages → Build and deployment → Source** 选 **GitHub Actions**
-4. 等 Actions 跑完（约 1 分钟），访问 `https://k1ne7.github.io/`
+3. 在 **Actions** 查看 `Deploy to GitHub Pages`，构建与部署成功后访问站点。
+   如果第一次推送时尚未启用 Pages，可在启用后手动重新运行工作流。
 
-之后每次 `git push` 到 `main` 都会自动重新构建部署。
+每次推送到 `main` 会执行 `npm ci`、构建，再发布 `dist/`。
+不要将构建目录、依赖或备份手动上传到仓库。
 
-## 换成自己的域名
+## 迁移内容与旧站备份
 
-1. 在域名服务商加记录：
-   - `www` → CNAME → `k1ne7.github.io`
-   - 根域名 → A → `185.199.108.153` / `185.199.109.153` / `185.199.110.153` / `185.199.111.153`
-2. 仓库 Settings → Pages → Custom domain 填域名，勾 **Enforce HTTPS**
-3. 把 `astro.config.mjs` 里的 `site` 改成新域名，同步改 `public/robots.txt` 里的 Sitemap 地址，重新 push
+当前整理的公开文章只有《遇见》，保留原发布日期、分类、转载署名和配图。
+头像和图片已本地化，不依赖旧域名。请在旧站后台核对是否还有其他文章和页面。
 
-## 配置项
+`_backup/` 已从 Git 排除，其中公开内容抓取记录并非 WordPress 完整备份。
+旧主机到期前，请另行下载「工具 → 导出 → 所有内容」XML、完整图片附件、
+主机网站文件和数据库备份。草稿、私密文章及评论不能凭公开接口确认已保存。
+旧域名到期后，原链接不会自动转到新站，需要向读者告知新地址。
 
-- `astro.config.mjs` — 站点地址（`site`）、sitemap
-- `src/components/Header.astro` — 导航菜单
-- `src/components/Footer.astro` — 页脚链接（RSS / GitHub / Bilibili）
-- `src/styles/global.css` — 配色变量在文件顶部，`--accent` 是强调色，`--skin` 是原站的主色
+## 回滚到迁移前的 Astro 版本
 
-## 从旧站带过来的东西
+切换前的文件在 `_backup/astro-before-hexo/`，包含文章、图片、依赖锁文件和部署工作流。
+先备份新写的 Hexo 文章，将 `src/`、`public/`、`astro.config.mjs`、`tsconfig.json`、
+`package.json`、`package-lock.json` 和 README 恢复到原位置，
+将备份的 `deploy.yml` 恢复到 `.github/workflows/deploy.yml`，再执行 `npm ci`、`npm run build`。
+这份备份仅在当前机器；旧 Astro 源码也可从 Git 历史 `0fd2c2d` 取回。
 
-- 文章《遇见》（`src/content/blog/meet.md`）
-- 头像（`public/images/avatar.jpg`）
-- 文章配图（`public/images/meet.jpg`）
+## 依赖状态
 
-旧站的完整备份在 `_backup/`（已加进 `.gitignore`，不会上传）。
-其中有一张微信加好友二维码，属于个人信息，**没有**放进站点。
-
-## 待办
-
-- [ ] 评论：接 [giscus](https://giscus.app)，需要仓库开启 Discussions
-- [ ] 搜索：文章多了以后用 [Pagefind](https://pagefind.app)
-- [ ] 统计：可接 Umami / Cloudflare Web Analytics
+npm 审计报告包含 Hexo 上游构建依赖的 9 项告警（2 moderate、7 high），
+自动修复建议会降级 Hexo，暂未强制修改上游依赖。它们属于本地/CI 构建链，Pages 只提供生成的静态文件。
+不要运行会强制降级 Hexo 的 `npm audit fix --force`；升级时先核对官方兼容性和构建结果。

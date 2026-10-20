@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://k1ne7.github.io/sitemap-index.xml

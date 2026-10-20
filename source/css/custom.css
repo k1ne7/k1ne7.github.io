@@ -1,0 +1,22 @@
+/* Small accessibility adjustments, preserving Butterfly's original layout. */
+:focus-visible {
+  outline: 3px solid #1d75cd;
+  outline-offset: 4px;
+}
+#site-title, #site-subtitle {
+  text-shadow: 0 2px 8px rgba(0, 0, 0, .85);
+}
+#page-header::before {
+  background-color: rgba(0, 0, 0, .42);
+}
+#article-container {
+  overflow-wrap: anywhere;
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -1,0 +1,95 @@
+# Overrides only: keep the official Butterfly theme intact for upgrades.
+nav:
+  fixed: true
+menu:
+  首页: / || fas fa-home
+  归档: /archives/ || fas fa-archive
+  分类: /categories/ || fas fa-folder-open
+  标签: /tags/ || fas fa-tags
+  关于: /about/ || fas fa-user
+
+social:
+  fab fa-github: https://github.com/k1ne7 || GitHub
+  fab fa-bilibili: https://space.bilibili.com/480238577 || Bilibili
+  fas fa-rss: /atom.xml || RSS
+
+favicon: /images/avatar.jpg
+avatar:
+  img: /images/avatar.jpg
+  effect: false
+index_img: /images/meet.jpg
+default_top_img: /images/meet.jpg
+archive_img: /images/meet.jpg
+index_top_img_height: 65vh
+subtitle:
+  enable: true
+  effect: false
+  source: false
+  sub:
+    - 追寻心中的旗帜
+index_layout: 3
+index_post_content:
+  method: 2
+  length: 140
+
+aside:
+  enable: true
+  mobile: true
+  card_author:
+    description: 疯狂造句中……
+    button:
+      enable: true
+      icon: fab fa-github
+      text: 我的 GitHub
+      link: https://github.com/k1ne7
+  card_announcement:
+    enable: true
+    content: 欢迎来到 k1ne 的博客。记录想法，写点东西。
+
+footer:
+  owner:
+    enable: true
+    since: 2026
+  copyright:
+    enable: true
+    version: false
+  custom_text: 追寻心中的旗帜
+
+darkmode:
+  enable: true
+  button: true
+  autoChangeMode: 1
+search:
+  use: local_search
+  placeholder: 搜索文章
+  local_search:
+    preload: false
+    top_n_per_article: 2
+    unescape: false
+share:
+  use: false
+busuanzi:
+  site_uv: false
+  site_pv: false
+  page_pv: false
+# Reprinted poems retain their attribution, without adding an author license.
+post_copyright:
+  enable: false
+lightbox: false
+lazyload:
+  enable: true
+  native: true
+  field: site
+font:
+  global_font_size: 16px
+  font_family: '-apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif'
+
+CDN:
+  internal_provider: local
+  third_party_provider: jsdelivr
+  option:
+    fontawesome: /vendor/fontawesome/css/all.min.css
+inject:
+  head:
+    - <link rel="alternate" type="application/atom+xml" title="k1ne" href="/atom.xml">
+    - <link rel="stylesheet" href="/css/custom.css">

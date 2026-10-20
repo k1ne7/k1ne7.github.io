@@ -6,6 +6,7 @@ menu:
   归档: /archives/ || fas fa-archive
   分类: /categories/ || fas fa-folder-open
   标签: /tags/ || fas fa-tags
+  友链: /link/ || fas fa-link
   关于: /about/ || fas fa-user
 
 social:
@@ -20,13 +21,18 @@ avatar:
 index_img: /images/meet.jpg
 default_top_img: /images/meet.jpg
 archive_img: /images/meet.jpg
-index_top_img_height: 65vh
+background: /images/meet.jpg
+index_top_img_height: 100vh
 subtitle:
   enable: true
-  effect: false
+  effect: true
   source: false
+  typed_option:
+    typeSpeed: 110
+    startDelay: 500
+    loop: false
   sub:
-    - 追寻心中的旗帜
+    - 真正的热爱又如何会感到疲倦和厌烦呢？倘若时时刻刻都怀揣着强烈的创作激情与成为强者的渴望，那便永远纵情燃烧，不舍昼夜。
 index_layout: 3
 index_post_content:
   method: 2
@@ -36,7 +42,7 @@ aside:
   enable: true
   mobile: true
   card_author:
-    description: 疯狂造句中……
+    description: 追寻心中的旗帜
     button:
       enable: true
       icon: fab fa-github
@@ -44,7 +50,7 @@ aside:
       link: https://github.com/k1ne7
   card_announcement:
     enable: true
-    content: 欢迎来到 k1ne 的博客。记录想法，写点东西。
+    content: "k1ne's Blog"
 
 footer:
   owner:
@@ -72,6 +78,11 @@ busuanzi:
   site_uv: false
   site_pv: false
   page_pv: false
+wordcount:
+  enable: true
+  post_wordcount: true
+  min2read: true
+  total_wordcount: true
 # Reprinted poems retain their attribution, without adding an author license.
 post_copyright:
   enable: false
@@ -84,12 +95,30 @@ font:
   global_font_size: 16px
   font_family: '-apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif'
 
+theme_color:
+  enable: true
+  main: '#7850b8'
+  paginator: '#7850b8'
+  button_hover: '#613c9d'
+  text_selection: '#9c78cd'
+  link_color: '#7044ad'
+  hr_color: '#b99bdc'
+  toc_color: '#7850b8'
+  blockquote_padding_color: '#9771c8'
+  blockquote_background_color: '#9771c8'
+  scrollbar_color: '#9771c8'
+  meta_theme_color_light: '#f2edf8'
+  meta_theme_color_dark: '#191322'
+
 CDN:
   internal_provider: local
   third_party_provider: jsdelivr
   option:
     fontawesome: /vendor/fontawesome/css/all.min.css
+    typed: /vendor/typed/typed.umd.js
 inject:
   head:
     - <link rel="alternate" type="application/atom+xml" title="k1ne" href="/atom.xml">
     - <link rel="stylesheet" href="/css/custom.css">
+  bottom:
+    - <script src="/js/button-fireworks.js" defer></script>

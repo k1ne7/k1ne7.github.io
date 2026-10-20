@@ -1,10 +1,62 @@
-/* Small accessibility adjustments, preserving Butterfly's original layout. */
+/* Preserve Butterfly's layout with a purple palette and clear-image backgrounds. */
+:root {
+  --accent: #7850b8;
+  --glass-card: rgba(255, 252, 255, .84);
+  --glass-border: rgba(255, 255, 255, .5);
+  --btn-bg: #7850b8;
+  --btn-color: #fff;
+  --btn-hover-color: #613c9d;
+}
+[data-theme='dark'] {
+  --accent: #c2a0ef;
+  --glass-card: rgba(25, 19, 36, .78);
+  --glass-border: rgba(218, 195, 247, .22);
+  --btn-bg: #7850b8;
+  --btn-color: #fff;
+  --btn-hover-color: #9564cd;
+  --text-bg-hover: #7850b8;
+  --scrollbar-color: #9771c8;
+}
+[data-theme='dark'] #article-container a,
+[data-theme='dark'] #aside-content .card-tag-cloud a:hover {
+  color: var(--accent);
+}
 :focus-visible {
-  outline: 3px solid #1d75cd;
+  outline: 3px solid var(--accent);
   outline-offset: 4px;
 }
-#site-title, #site-subtitle {
+#site-title, #site-signature, #site-subtitle {
   text-shadow: 0 2px 8px rgba(0, 0, 0, .85);
+}
+#site-signature {
+  margin: 10px 24px 0;
+  color: #fff;
+  font-size: clamp(17px, 2vw, 24px);
+  letter-spacing: .12em;
+  line-height: 1.7;
+  text-align: center;
+}
+#page-header.full_page #site-info {
+  top: 50%;
+  transform: translateY(-50%);
+}
+#page-header.full_page {
+  height: 100vh;
+  height: 100svh;
+}
+#page-header #site-subtitle {
+  max-width: 960px;
+  min-height: 5.4em;
+  margin: 12px auto 0;
+  padding-inline: 24px;
+  font-size: clamp(16px, 1.6vw, 21px);
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 600px) {
+  #page-header #site-subtitle {
+    min-height: 9em;
+  }
 }
 #page-header::before {
   background-color: rgba(0, 0, 0, .42);
@@ -12,7 +64,131 @@
 #article-container {
   overflow-wrap: anywhere;
 }
+
+/* A clear, fixed homepage image continues behind the list and other pages. */
+#web_bg {
+  z-index: 0;
+}
+#body-wrap {
+  position: relative;
+  z-index: 1;
+}
+#web_bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(22, 12, 35, .16);
+}
+[data-theme='dark'] #web_bg::before {
+  background-color: rgba(14, 8, 24, .3);
+}
+#recent-posts .recent-post-item,
+#aside-content .card-widget,
+#archive, #tag, #category, #page {
+  background: var(--glass-card);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 28px rgba(25, 12, 45, .16);
+}
+body #footer,
+body.article-cover-background #footer {
+  background: rgba(41, 22, 65, .85);
+  border-top: 1px solid rgba(207, 173, 247, .24);
+}
+#aside-content .card-announcement .item-headline i {
+  color: var(--accent);
+}
+
+/* Each post's cover continues behind its content as a fixed wallpaper. */
+.article-wallpaper {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.article-wallpaper::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(8, 19, 35, .18);
+}
+body.article-cover-background #body-wrap {
+  position: relative;
+  z-index: 1;
+}
+body.article-cover-background #page-header {
+  background-image: none !important;
+  background-color: transparent;
+}
+body.article-cover-background #post,
+body.article-cover-background #aside-content .card-widget {
+  background: var(--glass-card);
+  border: 1px solid var(--glass-border);
+}
+/* Avoid loading the homepage wallpaper over each article's own cover. */
+body.article-cover-background #web_bg {
+  display: none;
+}
+
+/* Short feedback on intentional interaction; no perpetual button animation. */
+#aside-content .card-info #card-info-btn,
+#rightside button,
+#pagination .page-number,
+#aside-content .card-category-list-link,
+#nav .menus_item > a {
+  transition: transform 220ms ease, box-shadow 220ms ease,
+    background-color 220ms ease, color 220ms ease;
+}
+#aside-content .card-info #card-info-btn {
+  background: linear-gradient(110deg, #7850b8, #9864c5, #7850b8);
+  background-size: 200% 100%;
+  transition: background-position 400ms ease, transform 220ms ease, box-shadow 220ms ease;
+}
+#aside-content .card-category-list-link {
+  border-radius: 8px;
+}
+#rightside button {
+  border-radius: 10px;
+  color: #fff;
+  background-color: #7850b8;
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  #aside-content .card-info #card-info-btn:hover {
+    background-position: 100% 0;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 22px rgba(120, 80, 184, .4);
+  }
+  #rightside button:hover,
+  #pagination .page-number:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 16px rgba(120, 80, 184, .3);
+  }
+  #aside-content .card-category-list-link:hover {
+    transform: translateX(3px);
+  }
+  #nav .menus_item > a:hover {
+    transform: translateY(-2px);
+  }
+}
+#aside-content .card-info #card-info-btn:active,
+#rightside button:active,
+#pagination .page-number:active {
+  transform: scale(.97);
+}
 @media (prefers-reduced-motion: reduce) {
+  #aside-content .card-info #card-info-btn:hover,
+  #aside-content .card-info #card-info-btn:active,
+  #aside-content .card-info #card-info-btn:hover i,
+  #rightside > div > button:hover,
+  #rightside > div > button:active,
+  #pagination .page-number:hover,
+  #pagination .page-number:active,
+  #aside-content .card-category-list-link:hover,
+  #nav .menus_item > a:hover {
+    transform: none;
+  }
   *, *::before, *::after {
     animation-duration: .01ms !important;
     animation-iteration-count: 1 !important;

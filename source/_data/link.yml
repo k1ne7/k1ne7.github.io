@@ -1,0 +1,10 @@
+# Add real friends to link_list. Keep YAML indentation at two spaces.
+- class_name: 朋友们的博客
+  class_desc: ''
+  link_list: []
+  # Replace the line above with entries like this:
+  # link_list:
+  #   - name: 朋友的博客名
+  #     link: https://example.com/
+  #     avatar: /images/avatar.jpg
+  #     descr: 朋友的博客简介

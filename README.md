@@ -1,7 +1,7 @@
 # k1ne 的博客 · Hexo + Butterfly
 
 使用官方 [Butterfly](https://butterfly.js.org/) 主题，通过 npm 安装并锁定版本。
-计划部署到 https://k1ne7.github.io，不需要续费旧域名或虚拟主机。
+站点地址：https://k1ne7.github.io，不需要续费旧域名或虚拟主机。
 
 ## 本地运行
 
@@ -52,11 +52,38 @@ cover: /images/meet.jpg
 - `scaffolds/`：新文章和页面模板。
 
 首页大图暂时沿用旧站文章配图。更换后修改 `index_img` 和 `default_top_img` 即可。
+首页封面占满一屏，向下滚动后显示文章列表。
+`background` 设置列表及其他页面的固定背景，当前与首页大图相同；卡片半透明，不使用背景模糊。
+`theme_color` 配置紫色强调色；按钮悬停和按压有轻微反馈，并尊重系统的减少动态效果设置。
+按钮点击有短暂的紫色烟花效果（`source/js/button-fireworks.js`），支持键盘触发，减少动态效果模式下关闭。
+文章的 `cover` 同时用于列表封面、文章顶部与整页背景；《遇见》已使用 `meet-winter.png`。
+文章背景由 `scripts/article-background.js` 自动跟随主题渲染的封面，正文与侧栏使用半透明卡片。
+如果另设 `top_img`，文章背景会跟随该顶部图片；不设时自动使用 `cover`。
 搜索、RSS、站点地图已配置；评论尚未接入。
+已启用 `hexo-wordcount`：文章顶部显示字数和预计阅读分钟数，侧栏网站信息显示所有已发布文章的总字数。
+统计按中文字符、英文单词估算，包含正文中的代码文本；阅读时长仅供参考，最少显示 1 分钟。
 图标字体通过 `tools/vendor-assets.cjs` 从 npm 包复制到本地，随站点部署。
 不要直接修改 `node_modules/` 内主题文件；更新依赖会覆盖它们。
 
 ## 部署到 GitHub Pages
+
+### 添加友链
+
+编辑 `source/_data/link.yml`，将 `link_list: []` 替换为下面的列表，填写真实信息：
+
+```yaml
+  link_list:
+    - name: 朋友的博客名
+      link: https://example.com/
+      avatar: /images/avatar.jpg
+      descr: 朋友的博客简介
+```
+
+`avatar` 改成对方头像链接，也可以将图片保存到 `source/images/` 后引用本地路径。
+添加更多朋友时，继续增加同级的 `- name:` 条目。友链展示在 `/link/`，导航已添加入口。
+这是手动维护的友链列表，不会自动接受申请；提交推送后才会更新线上页面。
+
+### 发布步骤
 
 仓库：https://github.com/k1ne7/k1ne7.github.io。
 
@@ -77,7 +104,18 @@ cover: /images/meet.jpg
 
 ## 迁移内容与旧站备份
 
-当前整理的公开文章只有《遇见》，保留原发布日期、分类、转载署名和配图。
+从旧站整理的公开文章为《遇见》，保留原发布日期、分类、转载署名和配图。
+另已导入本地漏洞报告 `GHSA-4p5g-gh74-q524.md`，文章为 `source/_posts/repomix-git-config-rce.md`，
+使用 `source/images/repomix-report.png` 作为封面和背景。日期为博客导入日期，不代表漏洞披露日期。
+导入时仅整理标题、元数据和代码块排版，保留报告技术内容，未重新验证报告中的漏洞结论。
+另从 `D:/漏洞报告/src/blog` 导入三篇报告到“渗透”分类：
+
+- `insurance-order-callback-auth-bypass.md`：订单回调未授权，封面为红眼角色图。
+- `chat-message-unauthorized-access.md`：聊天消息未授权，封面为持枪角色图。
+- `payment-order-idor.md`：支付接口水平越权，封面为黑白简笔画。
+
+正文四张截图保存在 `source/images/pentest/`，原始报告备份在 `_backup/pentest-reports-original/`。
+正文截图按作者确认保留原图，与文章一同发布。
 头像和图片已本地化，不依赖旧域名。请在旧站后台核对是否还有其他文章和页面。
 
 `_backup/` 已从 Git 排除，其中公开内容抓取记录并非 WordPress 完整备份。

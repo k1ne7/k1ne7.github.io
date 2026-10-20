@@ -7,7 +7,7 @@ categories:
 tags:
   - 诗歌
 description: 星星担心夜太漆黑，于是点缀了光辉。雪害怕大地太孤独，点点纷飞，花白了发。
-cover: /images/meet.jpg
+cover: /images/meet-winter.png
 ---
 
 星星担心夜太漆黑  

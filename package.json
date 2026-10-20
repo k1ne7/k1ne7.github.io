@@ -24,7 +24,9 @@
     "hexo-generator-tag": "^2.0.0",
     "hexo-renderer-marked": "^7.0.1",
     "hexo-server": "^3.0.0",
-    "hexo-theme-butterfly": "5.7.0"
+    "hexo-theme-butterfly": "5.7.0",
+    "hexo-wordcount": "6.0.1",
+    "typed.js": "3.0.0"
   },
   "engines": {
     "node": ">=22.22.0"

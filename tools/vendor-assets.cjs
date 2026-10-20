@@ -11,3 +11,8 @@ for (const folder of ['css', 'webfonts']) {
   }
 }
 fs.copyFileSync(path.join(packageRoot, 'LICENSE.txt'), path.join(targetRoot, 'LICENSE.txt'));
+const typedRoot = path.dirname(path.dirname(require.resolve('typed.js')));
+const typedTarget = path.join(__dirname, '..', 'source', 'vendor', 'typed');
+fs.mkdirSync(typedTarget, { recursive: true });
+fs.copyFileSync(path.join(typedRoot, 'dist', 'typed.umd.js'), path.join(typedTarget, 'typed.umd.js'));
+fs.copyFileSync(path.join(typedRoot, 'LICENSE.txt'), path.join(typedTarget, 'LICENSE.txt'));

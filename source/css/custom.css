@@ -95,6 +95,18 @@
 [data-theme='dark'] #web_bg::before {
   background-color: rgba(14, 8, 24, .3);
 }
+/* Inner pages share the fixed wallpaper instead of cropping it again in the header. */
+#page-header:not(.full_page) {
+  background-image: none !important;
+  background-color: transparent;
+}
+#page-header:not(.full_page)::before {
+  background: transparent;
+}
+#page-header:not(.full_page) #site-title,
+#page-header:not(.full_page) #post-info {
+  text-shadow: 0 2px 8px rgba(0, 0, 0, .85);
+}
 #recent-posts .recent-post-item,
 #aside-content .card-widget,
 #archive, #tag, #category, #page {
@@ -146,6 +158,23 @@ body.article-cover-background #web_bg {
 }
 
 /* Short feedback on intentional interaction; no perpetual button animation. */
+#black-hole {
+  position: fixed;
+  inset: 0;
+  z-index: 3000;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+#black-hole-filters {
+  position: fixed;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  #black-hole { display: none; }
+}
 #aside-content .card-info #card-info-btn,
 #rightside button,
 #pagination .page-number,

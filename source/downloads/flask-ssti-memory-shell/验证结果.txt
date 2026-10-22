@@ -1,0 +1,11 @@
+PASS: default Jinja delimiters
+PASS: data is not recursively evaluated as a template
+PASS: empty output can accompany a state change
+PASS: function retains its globals dictionary
+PASS: URL rule and endpoint mapping select the registered function
+PASS: normal setup API rejects registration after a request
+PASS: request proxy is context-local and unavailable outside context
+VERSIONS: {"Flask": "3.1.3", "Jinja2": "3.1.6", "Werkzeug": "3.1.7"}
+PASS: decorator forwards arguments/results, retains closure and metadata
+PASS: decorator order determines which function Flask registers
+All nine mechanism checks passed; original CTF environment was not reproduced.

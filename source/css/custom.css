@@ -64,6 +64,19 @@
 #article-container {
   overflow-wrap: anywhere;
 }
+#recent-posts .article-meta-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: 5px;
+  row-gap: 2px;
+}
+#recent-posts .post-card-stat {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
 
 /* A clear, fixed homepage image continues behind the list and other pages. */
 #web_bg {

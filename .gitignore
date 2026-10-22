@@ -18,3 +18,5 @@ Thumbs.db
 _backup/
 # local screenshot tooling
 _shots/
+# local article drafts; review before importing into source/_posts
+drafts/

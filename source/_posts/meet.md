@@ -18,5 +18,3 @@ cover: /images/meet-winter.png
 透明的防备  
 一遇见妳却还是  
 融化个粉碎
-
-<p style="text-align:right">转载自友人——流明</p>

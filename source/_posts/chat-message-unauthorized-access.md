@@ -1,5 +1,5 @@
 ---
-title: "AI 对话产品消息接口未授权：拿到 message_id 就能读消息"
+title: "某AI对话产品存在未授权读取消息"
 date: 2026-07-20 00:00:00
 categories:
   - 渗透

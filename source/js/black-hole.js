@@ -131,6 +131,7 @@
       if (!slot) {
         slot = slots.find(item => !item.element) || createSlot();
         slot.element = element;
+        slot.isBackground = element === background;
         slot.saved = element.style.getPropertyValue('filter');
         slot.priority = element.style.getPropertyPriority('filter');
         element.style.setProperty('filter', `url("#${slot.filter.id}")`);
@@ -159,7 +160,9 @@
         image.setAttribute('height', radius * 2);
       }
       slot.displacement.setAttribute('scale', strength);
-      slot.alpha.setAttribute('slope', disappearance);
+      // Cutting the last wallpaper layer reveals the body's white background.
+      // Only foreground content disappears; the wallpaper continues to warp.
+      slot.alpha.setAttribute('slope', slot.isBackground ? 0 : disappearance);
     }
   }
 

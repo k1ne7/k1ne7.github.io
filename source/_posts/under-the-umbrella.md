@@ -2,7 +2,7 @@
 title: 伞下
 date: 2026-10-26 00:00:00
 categories:
-  - 感想
+  - 诗
 tags:
   - 诗歌
 description: 细雨如丝落下，让伞下的时光更漫浪。

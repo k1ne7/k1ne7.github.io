@@ -4,17 +4,15 @@
   window.blogBlackHole = true;
 
   const motion = matchMedia('(prefers-reduced-motion: reduce)');
-  const finePointer = matchMedia('(hover: hover) and (pointer: fine)');
+  const effectScale = .7;
   const NS = 'http://www.w3.org/2000/svg';
   const targets = 'a,button,[role="button"],p,h1,h2,h3,h4,h5,h6,li,pre,td,img,' +
     '#site-subtitle,.flink-list-item,.recent-post-item,.card-widget';
   const excluded = 'input,textarea,select,[contenteditable="true"],video,iframe';
   const colors = ['#c5a2ff', '#8b65dd', '#f4e8ff', '#b4caff'];
   const slots = [];
-  const point = { x: -500, y: -500, tx: -500, ty: -500 };
   let canvas, ctx, svg, defs, warpImage, holeImage;
-  let frame = 0, lastMove = 0, lastScan = 0, burst = null, particles = [];
-  let hovering = false;
+  let frame = 0, lastScan = 0, burst = null, particles = [];
 
   function node(tag, attrs, parent) {
     const element = document.createElementNS(NS, tag);
@@ -179,24 +177,20 @@
 
   function render(time) {
     frame = 0;
-    const progress = burst ? (time - burst.start) / 1100 : 1;
-    if (burst && progress >= 1) { burst = null; particles = []; }
-    const activeBurst = !!burst;
-    const idle = Math.max(0, 1 - (time - lastMove - 750) / 450);
-    const visibility = hovering ? Math.min(1, idle) : 0;
-    if (!activeBurst && visibility <= 0) { clear(); return; }
-    point.x += (point.tx - point.x) * .38;
-    point.y += (point.ty - point.y) * .38;
-    const x = activeBurst ? burst.x : point.x, y = activeBurst ? burst.y : point.y;
-    const pulse = activeBurst ? Math.sin(Math.PI * Math.min(1, progress / .85)) : 0;
-    const radius = 112 + pulse * 54;
+    if (!burst) { clear(); return; }
+    const progress = (time - burst.start) / 1100;
+    if (progress >= 1) { clear(); return; }
+    const { x, y } = burst;
+    const pulse = Math.sin(Math.PI * Math.min(1, progress / .85));
+    const radius = (112 + pulse * 54) * effectScale;
     if (time - lastScan > 70 || !lastScan) { scan(x, y, radius); lastScan = time; }
-    deform(x, y, radius, activeBurst ? 28 + pulse * 125 : 36 * visibility,
-      activeBurst ? Math.sin(Math.PI * Math.min(1, progress / .72)) * .88 : 0);
+    deform(x, y, radius, (28 + pulse * 125) * effectScale,
+      Math.sin(Math.PI * Math.min(1, progress / .72)) * .88);
     ctx.clearRect(0, 0, innerWidth, innerHeight);
     ctx.save();
     ctx.translate(x, y);
-    const opacity = activeBurst ? 1 - progress : visibility * .75;
+    ctx.scale(effectScale, effectScale);
+    const opacity = 1 - progress;
     const glow = ctx.createRadialGradient(0, 0, 6, 0, 0, 65 + pulse * 35);
     glow.addColorStop(0, 'rgba(10,4,24,.64)');
     glow.addColorStop(.28, 'rgba(99,50,176,.2)');
@@ -213,25 +207,23 @@
     ctx.rotate(-time * .0015);
     ctx.fillStyle = '#10091c';
     ctx.beginPath(); ctx.arc(0, 0, 7 + pulse * 9, 0, Math.PI * 2); ctx.fill();
-    if (activeBurst) {
-      for (const particle of particles) {
-        const contraction = Math.max(0, 1 - progress / .3);
-        const expansion = Math.max(0, (progress - .3) / .7);
-        const distance = particle.radius * contraction + particle.speed * expansion;
-        const angle = particle.angle + Math.min(progress / .3, 1) * 2.5;
-        ctx.save();
-        ctx.translate(Math.cos(angle) * distance, Math.sin(angle) * distance);
-        ctx.rotate(particle.spin * progress * 5);
-        ctx.globalAlpha = (1 - expansion) ** 1.5;
-        ctx.fillStyle = particle.color;
-        if (particle.glyph) { ctx.font = '13px sans-serif'; ctx.fillText(particle.glyph, 0, 0); }
-        else ctx.fillRect(-particle.size / 2, -particle.size / 2, particle.size, particle.size * .65);
-        ctx.restore();
-      }
-      ctx.globalAlpha = (1 - progress) * .5;
-      ctx.strokeStyle = '#d8c2ff';
-      ctx.beginPath(); ctx.arc(0, 0, 15 + progress * 115, 0, Math.PI * 2); ctx.stroke();
+    for (const particle of particles) {
+      const contraction = Math.max(0, 1 - progress / .3);
+      const expansion = Math.max(0, (progress - .3) / .7);
+      const distance = particle.radius * contraction + particle.speed * expansion;
+      const angle = particle.angle + Math.min(progress / .3, 1) * 2.5;
+      ctx.save();
+      ctx.translate(Math.cos(angle) * distance, Math.sin(angle) * distance);
+      ctx.rotate(particle.spin * progress * 5);
+      ctx.globalAlpha = (1 - expansion) ** 1.5;
+      ctx.fillStyle = particle.color;
+      if (particle.glyph) { ctx.font = '13px sans-serif'; ctx.fillText(particle.glyph, 0, 0); }
+      else ctx.fillRect(-particle.size / 2, -particle.size / 2, particle.size, particle.size * .65);
+      ctx.restore();
     }
+    ctx.globalAlpha = (1 - progress) * .5;
+    ctx.strokeStyle = '#d8c2ff';
+    ctx.beginPath(); ctx.arc(0, 0, 15 + progress * 115, 0, Math.PI * 2); ctx.stroke();
     ctx.restore();
     frame = requestAnimationFrame(render);
   }
@@ -246,16 +238,6 @@
     for (const slot of slots) release(slot);
     if (ctx) ctx.clearRect(0, 0, innerWidth, innerHeight);
   }
-
-  document.addEventListener('pointermove', event => {
-    if (motion.matches || !finePointer.matches || event.pointerType === 'touch' || document.hidden) return;
-    if (event.buttons || event.target.closest?.(excluded) || !getSelection().isCollapsed) {
-      hovering = false; clear(); return;
-    }
-    if (!hovering) { point.x = event.clientX; point.y = event.clientY; }
-    point.tx = event.clientX; point.ty = event.clientY;
-    hovering = true; lastMove = performance.now(); start();
-  }, { passive: true });
 
   document.addEventListener('click', event => {
     if (motion.matches || document.hidden || !(event.target instanceof Element)) return;
@@ -272,11 +254,10 @@
     start();
   }, { passive: true, capture: true });
 
-  document.addEventListener('pointerleave', () => { hovering = false; if (!burst) clear(); });
-  document.addEventListener('visibilitychange', () => { if (document.hidden) { hovering = false; clear(); } });
-  window.addEventListener('blur', () => { hovering = false; clear(); });
+  document.addEventListener('visibilitychange', () => { if (document.hidden) clear(); });
+  window.addEventListener('blur', clear);
   window.addEventListener('resize', () => { clear(); resize(); }, { passive: true });
-  window.addEventListener('scroll', () => { hovering = false; clear(); }, { passive: true });
-  motion.addEventListener('change', () => { hovering = false; clear(); });
-  document.addEventListener('pjax:send', () => { hovering = false; clear(); });
+  window.addEventListener('scroll', clear, { passive: true });
+  motion.addEventListener('change', clear);
+  document.addEventListener('pjax:send', clear);
 })();

@@ -121,4 +121,4 @@ inject:
     - <link rel="alternate" type="application/atom+xml" title="k1ne" href="/atom.xml">
     - <link rel="stylesheet" href="/css/custom.css?v=20261022-2">
   bottom:
-    - <script src="/js/black-hole.js?v=20261022-2" defer></script>
+    - <script src="/js/black-hole.js?v=20261026-1" defer></script>

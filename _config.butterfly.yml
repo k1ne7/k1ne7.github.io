@@ -75,9 +75,29 @@ search:
 share:
   use: false
 busuanzi:
-  site_uv: false
-  site_pv: false
-  page_pv: false
+  site_uv: true
+  site_pv: true
+  page_pv: true
+comments:
+  use: Giscus
+  text: true
+  lazyload: true
+  count: false
+  card_post_count: false
+giscus:
+  repo: k1ne7/k1ne7.github.io
+  repo_id: R_kgDOVQipVg
+  category_id: DIC_kwDOVQipVs4DJ1Vu
+  light_theme: light
+  dark_theme: dark
+  option:
+    data-category: Announcements
+    data-mapping: pathname
+    data-strict: '1'
+    data-reactions-enabled: '1'
+    data-emit-metadata: '0'
+    data-input-position: top
+    data-lang: zh-CN
 wordcount:
   enable: true
   post_wordcount: true

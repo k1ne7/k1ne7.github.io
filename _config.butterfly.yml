@@ -136,6 +136,7 @@ CDN:
   option:
     fontawesome: /vendor/fontawesome/css/all.min.css
     typed: /vendor/typed/typed.umd.js
+    busuanzi: /js/view-counter.js?v=20261029-1
 inject:
   head:
     - <link rel="alternate" type="application/atom+xml" title="k1ne" href="/atom.xml">
